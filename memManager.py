@@ -1,6 +1,7 @@
 import sys
+from LRUmem import *
 
-def parseData(data):
+def parseData(data, memory):
 	for line in data:
 		#Strips newline character from each line, then each line is
 		#split into a list.
@@ -16,7 +17,9 @@ def main():
 	#Takes input file from command line
 	with open(sys.argv[-1], 'r') as f:
 		mRefs = f.readlines()
-		parseData(mRefs)
+		
+	mem = LRUmem(1024)	
+	parseData(mRefs, mem)
 
 if __name__ == "__main__":
 	main()
