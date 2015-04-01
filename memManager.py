@@ -7,10 +7,15 @@ def parseData(data, memory):
 		#split into a list.
 		mAccess = line.rstrip().split()
 		
+		proc = mAccess[0].rstrip(':')
+		pageNum = int(mAccess[1])
+		#print(proc, pageNum)
+		
+		memory.accessMem(proc, pageNum)
 		#Prints out process and page it is accessing. 
 		#TODO: do I need this?
-		print "Process "+mAccess[0].rstrip(':')+\
-		" is accessing page "+str(int(mAccess[1], 2))
+		"""""print "Process "+mAccess[0].rstrip(':')+\
+		" is accessing page "+str(int(mAccess[1], 2))"""
 	
 
 def main():

@@ -23,6 +23,15 @@ class LRUmem(object):
 		
 		#list of dictionaries, each dictionary will be a process table
 		self.pageTables = []
+		
 	
 	
+	def accessMem(self, process, pageNum):
+		memAccess = (process, pageNum)
+		if memAccess not in self.memPages:
+			#Add function for page fault here
+			print "test1"
+		else:
+			print "test2"
+			#update timestamp for that page here
 		
