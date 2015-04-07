@@ -9,7 +9,6 @@ def parseData(data, memory):
 		
 		proc = mAccess[0].rstrip(':')
 		pageNum = int(mAccess[1])
-		#print(proc, pageNum)
 		
 		memory.accessMem(proc, pageNum)
 		#Prints out process and page it is accessing. 
@@ -23,7 +22,7 @@ def main():
 	with open(sys.argv[-1], 'r') as f:
 		mRefs = f.readlines()
 		
-	mem = LRUmem(1024)	
+	mem = LRUmem(16, 1)	
 	parseData(mRefs, mem)
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ from datetime import datetime
 class PCB(object):
 	def __init__(self, procNum):
 		self.procNum = procNum
-		self.space = space
+		self.space = self.space
 		
 		#using timestamps to determine LRU as of now
 		#might want to switch to logical timestamp
@@ -15,9 +15,9 @@ class PCB(object):
 #Simulate memory that will use a LRU page replacement algorithm, also
 #contains a list of page tables.		
 class LRUmem(object):
-	def __init__(self, space):
-		self.space = space
-		
+	def __init__(self, KBs, pageSize):
+		self.space = KBs*1024
+		self.numPages = self.space/(pageSize*1024)
 		#list to simulate pages of virtual memory
 		self.memPages = []
 		
@@ -25,13 +25,13 @@ class LRUmem(object):
 		self.pageTables = []
 		
 	
-	
+	#Should look at PCB for the process, create PCB if one does not exist
 	def accessMem(self, process, pageNum):
 		memAccess = (process, pageNum)
 		if memAccess not in self.memPages:
-			#Add function for page fault here
-			print "test1"
+			#
+			print("adding ", memAccess, " to mem")
 		else:
-			print "test2"
+			print(memAccess, " already in mem")
 			#update timestamp for that page here
 		
