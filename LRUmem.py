@@ -1,4 +1,5 @@
 from datetime import datetime
+import collections
 
 #class which will act as the PCB for each process
 class PCB(object):
@@ -19,7 +20,7 @@ class LRUmem(object):
 		self.space = KBs*1024
 		self.numPages = self.space/(pageSize*1024)
 		#list to simulate pages of virtual memory
-		self.memPages = []
+		self.memPages = collections.OrderedDict()
 		
 		#list of dictionaries, each dictionary will be a process table
 		self.pageTables = []
@@ -30,8 +31,21 @@ class LRUmem(object):
 		memAccess = (process, pageNum)
 		if memAccess not in self.memPages:
 			#
-			print("adding ", memAccess, " to mem")
+			(self.pageFault(memAccess))
 		else:
 			print(memAccess, " already in mem")
 			#update timestamp for that page here
-		
+	
+	#occurs when m access results in a page fault, checks for PCB, pageTable
+	#and will update as needed
+	def pageFault(self, access):
+		if len(self.memPages) >= (self.numPages):
+    		#add LRU replacement method here
+			print("Memory currently full.")
+		else:
+			print("Adding ", access, " to mem")
+			(self.updateMem(access))
+			
+	def updateMem(self, access):
+		if access in (self.memPages):
+			print("test")
