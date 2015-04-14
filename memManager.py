@@ -8,21 +8,16 @@ def parseData(data, memory):
 		mAccess = line.rstrip().split()
 		
 		proc = mAccess[0].rstrip(':')
-		pageNum = int(mAccess[1])
+		pageNum = int(mAccess[1], 2)
 		
-		memory.accessMem(proc, pageNum)
-		#Prints out process and page it is accessing. 
-		#TODO: do I need this?
-		"""""print "Process "+mAccess[0].rstrip(':')+\
-		" is accessing page "+str(int(mAccess[1], 2))"""
-	
+		memory.accessMem(proc, pageNum)	
 
 def main():
 	#Takes input file from command line
 	with open(sys.argv[-1], 'r') as f:
 		mRefs = f.readlines()
 		
-	mem = LRUmem(16, 1)	
+	mem = Memory(16, 1)	
 	parseData(mRefs, mem)
 
 if __name__ == "__main__":
