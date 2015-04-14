@@ -36,10 +36,13 @@ class Memory(object):
 	def accessMem(self, process, pageNum):
 		memAccess = (process, pageNum)
 		if memAccess not in self.physM:
+			self.pageFaults+=1
+			print("Page Fault#", self.pageFaults,
+			" adding", memAccess, " to M")
 			(self.miss(memAccess))
 		else:
 			foundOn = self.hit(memAccess)
-			print(memAccess, " in M on page: ", foundOn)
+			print(memAccess, " already in M on page: ", foundOn)
 
 	
 	#Returns page in physical M where request was found
@@ -53,7 +56,6 @@ class Memory(object):
 	
 	#Will return page # in physical M where page is placed.
 	def miss(self, access):
-		self.pageFaults+=1
 		try:
 			page = self.physM.pop(access)
 		except KeyError:
