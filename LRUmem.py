@@ -26,26 +26,27 @@ class Memory(object):
 		self.space = KBs*1024
 		self.numPages = self.space/(pageSize*1024)
 		self.pageFaults = 0
+		
 		#Uses LRUm class to keep LRU item in front of data structure
 		self.physM = LRUm()
 		
 		#list of dictionaries, each dictionary will be a process table
 		self.pageTables = []
 		
-	#Should look at PCB for the process, create PCB if one does not exist
+	'''Checks to see if page is in physical M, if not will call function
+	which simulates a page fault.'''
 	def accessMem(self, process, pageNum):
 		memAccess = (process, pageNum)
 		if memAccess not in self.physM:
 			self.pageFaults+=1
-			print("Page Fault#", self.pageFaults,
-			" adding", memAccess, " to M")
-			(self.miss(memAccess))
+			print("Page Fault# ",self.pageFaults, " placed on page ",self.miss(memAccess))
 		else:
 			foundOn = self.hit(memAccess)
 			print(memAccess, " already in M on page: ", foundOn)
 
 	
-	#Returns page in physical M where request was found
+	'''Refreshes page access time, moving to end of physM data structure
+	also will return page in physical M where the page is located'''
 	def hit(self, access):
 		try:
 			page = self.physM[access]
@@ -54,14 +55,26 @@ class Memory(object):
 		except KeyError:
 			return -1
 	
-	#Will return page # in physical M where page is placed.
+	'''Returns the vicitm that was selected if physical M is full, or 
+	will return the page the item was placed on. Calls function to 
+	update the PCB.'''
 	def miss(self, access):
 		try:
 			page = self.physM.pop(access)
 		except KeyError:
 			if(len(self.physM)) >= (self.numPages):
-				page = self.physM.popitem(last=False)[1]
-				self.physM[access] = page
+				victim = self.physM.popitem(last=False)[1]
+				self.physM[access] = victim
+				self.updatePCB(access)
+				return victim
 			else:
-				self.physM[access] = len(self.physM)
+				currPage = len(self.physM)
+				self.physM[access] = currPage
+				self.updatePCB(access)
+				return currPage
+				
+	#Creates/updates the PCB as needed, manages processes' page tables
+	def updatePCB(access):
+		#needs to identify the process and update its page table/PCB
+		#as needed, not sure how/why to do this really.
 	
