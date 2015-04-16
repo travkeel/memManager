@@ -1,4 +1,5 @@
 import sys
+import json
 from LRUmem import *
 
 def parseData(data, memory):
@@ -10,7 +11,8 @@ def parseData(data, memory):
 		proc = mAccess[0].rstrip(':')
 		pageNum = int(mAccess[1], 2)
 		
-		memory.accessMem(proc, pageNum)	
+		memory.accessMem(proc, pageNum)
+			
 
 def main():
 	#Takes input file from command line
@@ -19,6 +21,7 @@ def main():
 		
 	mem = Memory(16, 1)	
 	parseData(mRefs, mem)
+	
 
 if __name__ == "__main__":
 	main()
